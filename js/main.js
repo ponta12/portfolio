@@ -330,7 +330,33 @@ TxtRotate.prototype.tick = function() {
   }, delta);
 };
 
+// 경력 기간 계산 (data-start="YYYY-MM" 기준, 시작 월 포함)
+var careerMonths = function(start) {
+  var parts = start.split('-');
+  var now = new Date();
+  return (now.getFullYear() - parseInt(parts[0], 10)) * 12 + (now.getMonth() + 1 - parseInt(parts[1], 10));
+};
+
+var updateCareer = function() {
+  var periods = document.querySelectorAll('.js-career-period[data-start]');
+  for (var i = 0; i < periods.length; i++) {
+    var m = careerMonths(periods[i].getAttribute('data-start'));
+    var years = Math.floor(m / 12), months = m % 12;
+    periods[i].textContent = years + '년' + (months ? ' ' + months + '개월' : '');
+  }
+
+  var rotators = document.querySelectorAll('.txt-rotate[data-career-start]');
+  for (var j = 0; j < rotators.length; j++) {
+    var y = Math.floor(careerMonths(rotators[j].getAttribute('data-career-start')) / 12);
+    var words = JSON.parse(rotators[j].getAttribute('data-rotate')).map(function(w) {
+      return /^\d+년차$/.test(w) ? y + '년차' : w;
+    });
+    rotators[j].setAttribute('data-rotate', JSON.stringify(words));
+  }
+};
+
 window.onload = function() {
+  updateCareer();
   var elements = document.getElementsByClassName('txt-rotate');
   for (var i=0; i<elements.length; i++) {
     var toRotate = elements[i].getAttribute('data-rotate');

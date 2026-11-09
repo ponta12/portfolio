@@ -9672,3 +9672,13 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+/* Work experience duty list */
+.resume-wrap .duty-list {
+  padding-left: 1.2em;
+  margin-bottom: 0; }
+  .resume-wrap .duty-list > li {
+    margin-bottom: 0.75em; }
+  .resume-wrap .duty-list ul {
+    padding-left: 1.2em;
+    list-style: disc; }
